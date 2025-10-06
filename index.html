@@ -91,7 +91,7 @@
     </style>
   </head>
   <body>
-    <h1>🎨 Los Colores De La Inclusion</h1>
+    <h1>🎨 Los Colores De La Inclusión</h1>
 
     <div id="top">
       <div class="top-mon" data-color="rojo">
@@ -121,7 +121,6 @@
       <div class="top-mon" data-color="rosado">
         <img src="monster_pink.jpg" alt="rosado" />
       </div>
-      <!-- Puedes agregar más colores, y el juego los tomará automáticamente -->
     </div>
 
     <div id="commander">
@@ -132,7 +131,6 @@
     <div id="mensaje"></div>
 
     <script>
-      // 🔹 Captura automática de todos los monstruos existentes en #top
       const emociones = Array.from(document.querySelectorAll(".top-mon")).map(
         (el) => {
           const color =
@@ -145,6 +143,32 @@
       let colorCorrecto = "";
       let running = false;
 
+      // 🔹 Variabilidad en los mensajes
+      const mensajesExito = [
+        "¡Muy bien hecho!",
+        "¡Excelente trabajo!",
+        "¡Lo hiciste muy bien!",
+        "¡Perfecto!",
+        "¡Genial, lo lograste!",
+        "¡Eso es, muy bien!",
+        "¡Sabías el color!",
+        "¡Buen trabajo!",
+      ];
+
+      const mensajesError = [
+        "Ups, inténtalo otra vez.",
+        "Casi, vuelve a intentarlo.",
+        "No te rindas, tú puedes.",
+        "Vamos, prueba otra vez.",
+        "Sigue intentando.",
+        "Piensa un poco más, tu puedes.",
+        "Ya sabes los colores, inténtalo de nuevo.",
+      ];
+
+      function mensajeAleatorio(lista) {
+        return lista[Math.floor(Math.random() * lista.length)];
+      }
+
       function speak(texto) {
         if (!("speechSynthesis" in window)) return;
         window.speechSynthesis.cancel();
@@ -154,7 +178,6 @@
         window.speechSynthesis.speak(u);
       }
 
-      // Eventos de clic sobre cada monstruo
       document.querySelectorAll(".top-mon").forEach((el) => {
         el.addEventListener("click", () => {
           if (!running) return;
@@ -162,28 +185,27 @@
           const m = document.getElementById("mensaje");
 
           if (elegido === colorCorrecto) {
-            m.textContent = "✅ ¡Bien hecho!";
+            const texto = mensajeAleatorio(mensajesExito);
+            m.textContent = "✅ " + texto;
             m.style.color = "green";
-            speak("¡Bien hecho!");
+            speak(texto);
             running = false;
           } else {
-            m.textContent = "❌ Inténtalo de nuevo";
+            const texto = mensajeAleatorio(mensajesError);
+            m.textContent = "❌ " + texto;
             m.style.color = "red";
-            speak("Inténtalo de nuevo");
+            speak(texto);
           }
         });
       });
 
-      // Botón iniciar
       document.getElementById("startBtn").addEventListener("click", () => {
-        // Elige un color aleatorio de los existentes
         const e = emociones[Math.floor(Math.random() * emociones.length)];
         colorCorrecto = e.color;
 
         const ci = document.getElementById("commanderImg");
         const m = document.getElementById("mensaje");
 
-        // Muestra el color 1 segundo
         ci.src = e.imagen;
         m.textContent = "Escoge el color: " + e.nombre;
         m.style.color = "#222";
@@ -192,7 +214,7 @@
         running = true;
 
         setTimeout(() => {
-          ci.src = "comander.jpg"; // vuelve al arcoíris
+          ci.src = "comander.jpg";
         }, 1000);
       });
     </script>
