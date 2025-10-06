@@ -229,7 +229,7 @@
         "No te rindas, tú puedes.",
         "Vamos, prueba otra vez.",
         "Sigue intentando.",
-        "Piensa un poco más.",
+        "Piensa un poco más.tu puedes",
         "Ya sabes los colores, inténtalo de nuevo.",
       ];
 
@@ -242,7 +242,7 @@
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(texto);
         u.lang = "es-ES";
-        u.rate = 1.5;
+        u.rate = 1;
         window.speechSynthesis.speak(u);
       }
 
