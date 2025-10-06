@@ -14,14 +14,18 @@
 
       h1 {
         margin-bottom: 20px;
+        font-size: 1.8rem;
       }
 
+      /* 🔹 Por defecto (monitores grandes): una sola fila horizontal */
       #top {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
+        align-items: center;
         gap: 18px;
         margin-top: 10px;
+        overflow-x: auto;
       }
 
       .top-mon {
@@ -35,6 +39,7 @@
         cursor: pointer;
         background: white;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+        flex-shrink: 0;
       }
 
       .top-mon:hover {
@@ -87,6 +92,70 @@
 
       #startBtn:hover {
         background: #45a049;
+      }
+
+      /* 🔹 En pantallas medianas (tablets) → mostrar 3 por fila */
+      @media (max-width: 900px) {
+        #top {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 14px;
+          justify-items: center;
+        }
+
+        .top-mon {
+          width: 110px;
+          height: 110px;
+        }
+      }
+
+      /* 🔹 En celulares pequeños */
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.4rem;
+        }
+
+        #top {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+
+        .top-mon {
+          width: 95px;
+          height: 95px;
+          border-width: 2px;
+        }
+
+        #commander {
+          width: 180px;
+          height: 180px;
+        }
+
+        #mensaje {
+          font-size: 18px;
+        }
+
+        #startBtn {
+          font-size: 15px;
+          padding: 8px 14px;
+        }
+      }
+
+      /* 🔹 Ultra pequeño (por debajo de 400px) */
+      @media (max-width: 400px) {
+        .top-mon {
+          width: 85px;
+          height: 85px;
+        }
+
+        #commander {
+          width: 160px;
+          height: 160px;
+        }
+
+        #mensaje {
+          font-size: 16px;
+        }
       }
     </style>
   </head>
@@ -143,7 +212,6 @@
       let colorCorrecto = "";
       let running = false;
 
-      // 🔹 Variabilidad en los mensajes
       const mensajesExito = [
         "¡Muy bien hecho!",
         "¡Excelente trabajo!",
@@ -161,7 +229,7 @@
         "No te rindas, tú puedes.",
         "Vamos, prueba otra vez.",
         "Sigue intentando.",
-        "Piensa un poco más, tu puedes.",
+        "Piensa un poco más.",
         "Ya sabes los colores, inténtalo de nuevo.",
       ];
 
@@ -174,7 +242,7 @@
         window.speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(texto);
         u.lang = "es-ES";
-        u.rate = 1.3;
+        u.rate = 1.5;
         window.speechSynthesis.speak(u);
       }
 
