@@ -45,8 +45,8 @@
       .top-mon img {
         width: 80%;
         height: 80%;
-        object-fit: cover;
-        border-radius: 10px;
+        object-fit: fill;
+        border-radius: 5px;
       }
 
       #commander {
@@ -62,9 +62,9 @@
       }
 
       #commander img {
-        width: 90%;
-        height: 90%;
-        object-fit: cover;
+        width: 100%;
+        height: 80%;
+        object-fit: fill;
         border-radius: 12px;
       }
 
@@ -91,7 +91,7 @@
     </style>
   </head>
   <body>
-    <h1>🎨 Escoge el color Correcto </h1>
+    <h1>🎨 Los Colores De La Inclusion</h1>
 
     <div id="top">
       <div class="top-mon" data-color="rojo">
@@ -133,11 +133,14 @@
 
     <script>
       // 🔹 Captura automática de todos los monstruos existentes en #top
-      const emociones = Array.from(document.querySelectorAll(".top-mon")).map((el) => {
-        const color = el.dataset.color || el.querySelector("img").alt || "sin nombre";
-        const imagen = el.querySelector("img").getAttribute("src");
-        return { nombre: color, color: color, imagen: imagen };
-      });
+      const emociones = Array.from(document.querySelectorAll(".top-mon")).map(
+        (el) => {
+          const color =
+            el.dataset.color || el.querySelector("img").alt || "sin nombre";
+          const imagen = el.querySelector("img").getAttribute("src");
+          return { nombre: color, color: color, imagen: imagen };
+        }
+      );
 
       let colorCorrecto = "";
       let running = false;
