@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>🎨 El Monstruo de los 7 Colores</title>
+    <title>🎨 El Monstruo de los Colores</title>
     <style>
       body {
         font-family: Arial, Helvetica, sans-serif;
@@ -43,8 +43,8 @@
       }
 
       .top-mon img {
-        width: 100%;
-        height: 100%;
+        width: 80%;
+        height: 80%;
         object-fit: cover;
         border-radius: 10px;
       }
@@ -62,8 +62,8 @@
       }
 
       #commander img {
-        width: 100%;
-        height: 100%;
+        width: 90%;
+        height: 90%;
         object-fit: cover;
         border-radius: 12px;
       }
@@ -91,7 +91,7 @@
     </style>
   </head>
   <body>
-    <h1>🎨 Escoge el color correcto - Juego de los 7 Colores</h1>
+    <h1>🎨 Escoge el color Correcto </h1>
 
     <div id="top">
       <div class="top-mon" data-color="rojo">
@@ -109,15 +109,21 @@
       <div class="top-mon" data-color="azul">
         <img src="monster_blue.jpg" alt="azul" />
       </div>
-      <div class="top-mon" data-color="indigo">
-        <img src="monster_indigo.jpg" alt="índigo" />
+      <div class="top-mon" data-color="blanco">
+        <img src="monster_blanco.jpg" alt="blanco" />
       </div>
-      <div class="top-mon" data-color="violeta">
-        <img src="monster_violet.jpg" alt="violeta" />
+      <div class="top-mon" data-color="marron">
+        <img src="monster_marron.jpg" alt="marron" />
       </div>
+      <div class="top-mon" data-color="negro">
+        <img src="monster_black.jpg" alt="negro" />
+      </div>
+      <div class="top-mon" data-color="rosado">
+        <img src="monster_pink.jpg" alt="rosado" />
+      </div>
+      <!-- Puedes agregar más colores, y el juego los tomará automáticamente -->
     </div>
 
-    <!-- Imagen del arcoíris -->
     <div id="commander">
       <img id="commanderImg" src="comander.jpg" alt="comandante" />
     </div>
@@ -126,15 +132,12 @@
     <div id="mensaje"></div>
 
     <script>
-      const emociones = [
-        { nombre: "rojo", color: "rojo" },
-        { nombre: "naranja", color: "naranja" },
-        { nombre: "amarillo", color: "amarillo" },
-        { nombre: "verde", color: "verde" },
-        { nombre: "azul", color: "azul" },
-        { nombre: "índigo", color: "indigo" },
-        { nombre: "violeta", color: "violeta" },
-      ];
+      // 🔹 Captura automática de todos los monstruos existentes en #top
+      const emociones = Array.from(document.querySelectorAll(".top-mon")).map((el) => {
+        const color = el.dataset.color || el.querySelector("img").alt || "sin nombre";
+        const imagen = el.querySelector("img").getAttribute("src");
+        return { nombre: color, color: color, imagen: imagen };
+      });
 
       let colorCorrecto = "";
       let running = false;
@@ -148,6 +151,7 @@
         window.speechSynthesis.speak(u);
       }
 
+      // Eventos de clic sobre cada monstruo
       document.querySelectorAll(".top-mon").forEach((el) => {
         el.addEventListener("click", () => {
           if (!running) return;
@@ -167,25 +171,17 @@
         });
       });
 
+      // Botón iniciar
       document.getElementById("startBtn").addEventListener("click", () => {
-        const c = {
-          rojo: "monster_red.jpg",
-          naranja: "monster_orange.jpg",
-          amarillo: "monster_yellow.jpg",
-          verde: "monster_green.jpg",
-          azul: "monster_blue.jpg",
-          indigo: "monster_indigo.jpg",
-          violeta: "monster_violet.jpg",
-        };
-
+        // Elige un color aleatorio de los existentes
         const e = emociones[Math.floor(Math.random() * emociones.length)];
         colorCorrecto = e.color;
 
         const ci = document.getElementById("commanderImg");
         const m = document.getElementById("mensaje");
 
-        // Mostrar el color por 1 segundo
-        ci.src = c[e.color];
+        // Muestra el color 1 segundo
+        ci.src = e.imagen;
         m.textContent = "Escoge el color: " + e.nombre;
         m.style.color = "#222";
         speak("Escoge el color " + e.nombre);
