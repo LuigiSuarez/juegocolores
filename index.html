@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>🎨 El Monstruo de los 7 Colores</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        background: #f7fbff;
+        padding: 20px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      #top {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 10px;
+      }
+
+      .top-mon {
+        width: 130px;
+        height: 130px;
+        border: 3px solid #666;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: white;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .top-mon:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .top-mon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      #commander {
+        margin: 30px auto;
+        width: 220px;
+        height: 220px;
+        border: 4px solid #888;
+        border-radius: 16px;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #commander img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+      }
+
+      #mensaje {
+        font-size: 20px;
+        margin-top: 18px;
+        min-height: 28px;
+      }
+
+      #startBtn {
+        padding: 10px 18px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background: #4caf50;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      #startBtn:hover {
+        background: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎨 Escoge el color correcto - Juego de los 7 Colores</h1>
+
+    <div id="top">
+      <div class="top-mon" data-color="rojo">
+        <img src="monster_red.jpg" alt="rojo" />
+      </div>
+      <div class="top-mon" data-color="naranja">
+        <img src="monster_orange.jpg" alt="naranja" />
+      </div>
+      <div class="top-mon" data-color="amarillo">
+        <img src="monster_yellow.jpg" alt="amarillo" />
+      </div>
+      <div class="top-mon" data-color="verde">
+        <img src="monster_green.jpg" alt="verde" />
+      </div>
+      <div class="top-mon" data-color="azul">
+        <img src="monster_blue.jpg" alt="azul" />
+      </div>
+      <div class="top-mon" data-color="indigo">
+        <img src="monster_indigo.jpg" alt="índigo" />
+      </div>
+      <div class="top-mon" data-color="violeta">
+        <img src="monster_violet.jpg" alt="violeta" />
+      </div>
+    </div>
+
+    <!-- Imagen del arcoíris -->
+    <div id="commander">
+      <img id="commanderImg" src="comander.jpg" alt="comandante" />
+    </div>
+
+    <button id="startBtn">Iniciar</button>
+    <div id="mensaje"></div>
+
+    <script>
+      const emociones = [
+        { nombre: "rojo", color: "rojo" },
+        { nombre: "naranja", color: "naranja" },
+        { nombre: "amarillo", color: "amarillo" },
+        { nombre: "verde", color: "verde" },
+        { nombre: "azul", color: "azul" },
+        { nombre: "índigo", color: "indigo" },
+        { nombre: "violeta", color: "violeta" },
+      ];
+
+      let colorCorrecto = "";
+      let running = false;
+
+      function speak(texto) {
+        if (!("speechSynthesis" in window)) return;
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(texto);
+        u.lang = "es-ES";
+        u.rate = 1.3;
+        window.speechSynthesis.speak(u);
+      }
+
+      document.querySelectorAll(".top-mon").forEach((el) => {
+        el.addEventListener("click", () => {
+          if (!running) return;
+          const elegido = el.dataset.color;
+          const m = document.getElementById("mensaje");
+
+          if (elegido === colorCorrecto) {
+            m.textContent = "✅ ¡Bien hecho!";
+            m.style.color = "green";
+            speak("¡Bien hecho!");
+            running = false;
+          } else {
+            m.textContent = "❌ Inténtalo de nuevo";
+            m.style.color = "red";
+            speak("Inténtalo de nuevo");
+          }
+        });
+      });
+
+      document.getElementById("startBtn").addEventListener("click", () => {
+        const c = {
+          rojo: "monster_red.jpg",
+          naranja: "monster_orange.jpg",
+          amarillo: "monster_yellow.jpg",
+          verde: "monster_green.jpg",
+          azul: "monster_blue.jpg",
+          indigo: "monster_indigo.jpg",
+          violeta: "monster_violet.jpg",
+        };
+
+        const e = emociones[Math.floor(Math.random() * emociones.length)];
+        colorCorrecto = e.color;
+
+        const ci = document.getElementById("commanderImg");
+        const m = document.getElementById("mensaje");
+
+        // Mostrar el color por 1 segundo
+        ci.src = c[e.color];
+        m.textContent = "Escoge el color: " + e.nombre;
+        m.style.color = "#222";
+        speak("Escoge el color " + e.nombre);
+
+        running = true;
+
+        setTimeout(() => {
+          ci.src = "comander.jpg"; // vuelve al arcoíris
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
